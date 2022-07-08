@@ -1,2 +1,2 @@
 # AAVE-Dev-Rel
-AAVE Developer Relations Technical Assessment
+AAVE Developer Relations Technical Assessment.
