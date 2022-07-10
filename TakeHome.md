@@ -1,32 +1,20 @@
 1.) How can I get a list of the recent liquidations on the Aave Polygon V3 market?
+
+One way of creating a local list of liquidations would be to monitor emitted events from the protocol. For each user interacting with the protocol, take the user's address and call getUserAccountData(), part of this function will return the user's current 'healthFactor'. If this healthFactor is below 1 then the account can be liquidated by calling liquidationCall() directly on the Pool or L2Pool Contracts.
+V1 has a Liquidations API which can be sent a GET request to return the data in a JSON format.
+
 2.) How do I get my token listed on Aave?
+
+First it is recommended to use the Aave Request for Comments (ARC) process, this will allow community feedback, improvements and a rough consensus which can be snapshotted for use in the following Aave Improvement Proposal (AIP). This should be followed by risk analysis including proposed risk parameters and interest rate curves. The smart contract should also be peer-reviewed before the AIP to ensure the new asset fits into Aave's ecosystem.
+Once the ARC has reached community consensus, an AIP can be proposed as long as the proposer has enough proposition power using the Asset Onboarding Template. Every new asset proposed must have a ChainLink price feed and all necessary payloads must be included in the proposal.
+
+New in V3, community members can submit governance proposals to creat asset markets in 'isolated mode', this only allows the borrowing of 'permissioned' stablecoins. This allows Aave Governance to enact risk mitigation features on the new asset but the 'isolated asset' can also exit isolation mode via another proposal to remove the debt ceiling related to the asset. Also of note, as of V3, Aave Governance can grant the right of 'Asset Listing Admin' to any entity, allowing builders to great custom asset listing strategies.  
+
 3.) How often do token prices update and based upon which price service?
+
+
+Asset price updates occur on a set time interval or when a certain price deviation is reached, these updates use ChainLink Oracles for price updates.
+
 4.) I’m interested in building a liquidation bot, what do I need to get started on this?
 
-1
-https://docs.aave.com/developers/guides/liquidations
-
-2
-https://docs.aave.com/governance/guides/new-asset-listing
-Aave Request for Comments (ARCs) are the first step in the governance improvement process.
-Aave Improvement Proposal (AIP) may be created and submitted by any community member who has sufficient proposition power. 
-
-A snapshot vote is recommended to gather community feedback and the preferred path. This snapshot allows to reach a rought consensus to maximize the chances of positive outcome of the AIP submission. 
-
-Decentralizing the addition of new assets
-V3 introduces a new concept of “Asset Listing Admins.” With this feature, Aave Governance can create and grant rights to any entity, even smart contracts, to implement new strategies to add assets to the Aave protocol other than through an onchain vote. This will allow builders to create custom asset listing strategies which can be designed to bring true permissionless asset listing.
-
-Isolation Mode
-“Isolation Mode” is intended to allow Aave Governance to enact risk mitigation features when a new asset market is created on the protocol.
-
-When a community member submits a governance proposal to create a new asset market on V3, the proposal can seek to list the assets as “isolated collateral” such that users supplying those “isolated” assets can only borrow stablecoins that Aave Governance has “permissioned” to be borrowed in isolation mode, up to a specified debt ceiling.
-
-When a user supplies an “isolated asset” as collateral, that user can only use that asset as collateral; even if the user supplies other assets to the protocol, the user can only earn yield on those assets and cannot use those assets as collateral.
-
-$TOKEN2 can also exit isolation mode when Aave Governance votes on a proposal to remove the debt ceiling related to that asset.
-
-3
-Aave relies on Chainlink oracles for all price updates. Prices are updates occur on a set interval  or if a certain threshold is reached (i.e. 2% price deviation), each asset has it's own parameters for the interval and deviation
-
-4
-https://docs.aave.com/developers/guides/liquidations
+A liquidation bot should first and foremost have access to enough capital to transact with the network and perform liquidations. It should also have access to the latest protocol user data and the ability to calculate the profitability of liquidating loans against the price of gas. The best programming resources for creating the bot would be using github repos and the aave developer documentation.
